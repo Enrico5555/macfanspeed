@@ -97,11 +97,15 @@ int main(int argc, char **argv)
     float m = ((float)(FAN_MAX - FAN_MIN)) / (x2 - x1);
     float b = FAN_MIN - m*x1;
 	time_t t = time(NULL);
+	int last = 0;
 	while (1)
 	{
         float value = getsensorvalue(fpath) / 1000;
-        float fx = value*m + b;
-        setfanspeed(fx);
+        if (last != (int)value) {
+            float fx = value*m + b;
+            setfanspeed(fx);
+            last = value;
+        }
         while (t >= time(NULL) - WAIT_TIME) {}
         t = time(NULL);
 	}
