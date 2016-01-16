@@ -82,8 +82,6 @@ int main(int argc, char **argv)
 		read(lfile, val, 64);
 		close(lfile);
 		val[4] = 0;
-		printf("req sensor: %s\n", argv[1]);
-		printf("Sensor label: %s\n", val);
 		if (strcmp(argv[1], val) == 0) break;
 		fpath[len] = 0;
 		labelname[4] = 0;
@@ -96,7 +94,6 @@ int main(int argc, char **argv)
     float x1, x2;
     x1 = atof(argv[2]);
     x2 = atof(argv[3]);
-    printf("x1: %f, x2: %f\n", x1, x2);
     float m = ((float)(FAN_MAX - FAN_MIN)) / (x2 - x1);
     float b = FAN_MIN - m*x1;
 	time_t t = time(NULL);
@@ -104,8 +101,6 @@ int main(int argc, char **argv)
 	{
         float value = getsensorvalue(fpath) / 1000;
         float fx = value*m + b;
-        printf("value: %f\n", value);
-        printf("fx: %f\n", fx);
         setfanspeed(fx);
         while (t >= time(NULL) - WAIT_TIME) {}
         t = time(NULL);
